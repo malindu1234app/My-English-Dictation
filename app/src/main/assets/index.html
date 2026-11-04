@@ -155,15 +155,26 @@ function chooseEnglishVoice(){
 }
 function speak(i){
  const w=WORDS[i][0];
- if(!('speechSynthesis'in window)){alert('Speech is not supported on this device/browser.');return}
+ const note=document.getElementById('voiceNote');
+ // In the installed Android app, use the native Android Text-to-Speech engine.
+ if(window.AndroidSpeech && typeof window.AndroidSpeech.speak==='function'){
+   try{
+     window.AndroidSpeech.speak(w);
+     if(note) note.textContent='Voice: Android English voice. If no sound is heard, install/enable an English voice in your phone Text-to-Speech settings.';
+     return;
+   }catch(e){
+     if(note) note.textContent='Could not start Android voice. Check your phone Text-to-Speech settings.';
+     return;
+   }
+ }
+ // Browser fallback for the web version.
+ if(!('speechSynthesis' in window)){alert('Speech is not supported on this device/browser.');return}
  speechSynthesis.cancel();
  const u=new SpeechSynthesisUtterance(w);
  const voice=chooseEnglishVoice();
- if(voice){u.voice=voice;u.lang=voice.lang}
- else{u.lang='en-IN'}
+ if(voice){u.voice=voice;u.lang=voice.lang}else{u.lang='en-IN'}
  u.rate=.82;u.pitch=1.0;
  speechSynthesis.speak(u);
- const note=document.getElementById('voiceNote');
  if(note) note.textContent='Voice: '+(voice?voice.name+' ('+voice.lang+')':'device English voice (en-IN requested)')+'. Actual accent depends on voices installed on this device.';
 }
 function updateHome(){let n=saved.learned.length;document.getElementById('starsTop').textContent=saved.stars;document.getElementById('statStars').textContent=saved.stars+' ⭐';document.getElementById('statBest').textContent=saved.best===null?'—':saved.best+'%';document.getElementById('statDone').textContent=n+'/50';document.getElementById('learnedText').textContent=n+' of 50';document.getElementById('homeProgress').style.width=(n/50*100)+'%';document.getElementById('pLearned').textContent=n;document.getElementById('pStars').textContent=saved.stars;document.getElementById('progressBar').style.width=(n/50*100)+'%';document.getElementById('progressTitle').textContent=n===50?'🏆 Word Master!':n>=25?'🌟 Super Learner!':'🌱 Great start!';document.getElementById('progressDesc').textContent=n+' of 50 words marked as learned.'}
