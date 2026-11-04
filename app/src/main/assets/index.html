@@ -183,7 +183,7 @@ function speak(i){
   } else {
     alert('Speech is not supported on this device/browser.');
   }
-}}
+}
 let editingWordIndex=null;
 function escapeHtml(value){return String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]))}
 function openWordManager(){cancelWordEdit();renderWordManager();show('manage')}
