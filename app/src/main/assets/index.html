@@ -26,6 +26,7 @@
 <button class="tile" onclick="startMissing()"><span class="ico">🧩</span><b>Missing Letters</b><small>Complete the word</small></button>
 <button class="tile" onclick="openRevision()"><span class="ico">🔁</span><b>My Revision</b><small>Practise tricky words</small></button>
 <button class="tile" onclick="openProgress()"><span class="ico">🏆</span><b>My Progress</b><small>See your achievements</small></button>
+<button class="tile" onclick="openWordManager()"><span class="ico">✏️</span><b>Manage Words</b><small>Add, edit or delete words</small></button>
 </div><div class="note">💡 <b>Tip:</b> Learn 10 words at a time. Practise a little every day! Pictures are built in and work offline. Speech accent depends on the English voices installed on your phone.</div>
 </section>
 <section id="level" class="screen"><button class="back" onclick="show('home')">← Levels</button><div class="card"><div style="font-size:48px">🦉🌟</div><h2 id="levelTitle">Level 1</h2><p class="sub" id="levelDescription"></p><div class="level-actions"><button class="primary" onclick="learnLevel()">📚 Learn words</button><button class="primary" onclick="testLevel()">🎧 Take dictation test</button></div></div></section>
@@ -38,16 +39,17 @@
 <p class="sub">Listen, look at the picture and say the word aloud.</p>
 <button class="primary" onclick="speak(currentLearn)">🔊 Listen to pronunciation</button>
 <div class="voice-note" id="voiceNote">Voice: Sri Lankan English if available; otherwise the closest available English voice.</div>
-</div><div class="navrow"><button class="secondary" onclick="moveLearn(-1)">← Previous</button><button class="primary" onclick="markLearned()">I learned it ✓</button><button class="secondary" onclick="moveLearn(1)">Next →</button></div><div class="sectiontitle">All 50 words</div><div id="wordList" class="list"></div></section>
+</div><div class="navrow"><button class="secondary" onclick="moveLearn(-1)">← Previous</button><button class="primary" onclick="markLearned()">I learned it ✓</button><button class="secondary" onclick="moveLearn(1)">Next →</button></div><div class="sectiontitle">All words</div><div id="wordList" class="list"></div></section>
 <section id="test" class="screen"><button class="back" onclick="show('home')">← Home</button><div class="sectiontitle" id="testTitle">🎧 Listening Test</div><div class="sub" id="testCount">Question 1 of 10</div><div class="bar"><span id="testBar"></span></div><div class="card"><div style="font-size:38px">🎧</div><p class="sub" id="testPrompt">Tap the button to hear the word.</p><button class="primary" onclick="speak(testItems[testIndex])">🔊 Play Word</button><input id="answer" class="input" autocomplete="off" autocapitalize="none" placeholder="Type the spelling here"/><div class="feedback" id="feedback"></div><button class="primary" id="checkBtn" onclick="checkAnswer()">Check Answer</button><button class="secondary hide" id="nextBtn" onclick="nextQuestion()">Next Question →</button></div></section>
 <section id="quiz" class="screen"><button class="back" onclick="show('home')">← Home</button><div class="sectiontitle">🎯 Choose the correct spelling</div><div class="sub" id="quizCount">Question 1 of 10</div><div class="bar"><span id="quizBar"></span></div><div class="card"><div class="meaning" id="quizMeaning">ඇපල්</div><p class="sub">Which English word is correct?</p><div class="options" id="options"></div><div class="feedback" id="quizFeedback"></div><button class="primary hide" id="quizNext" onclick="nextQuiz()">Next →</button></div></section>
 <section id="missing" class="screen"><button class="back" onclick="show('home')">← Home</button><div class="sectiontitle">🧩 Missing Letters</div><div class="sub" id="missCount">Question 1 of 10</div><div class="bar"><span id="missBar"></span></div><div class="card"><div class="meaning" id="missMeaning"></div><div class="word" id="missPattern" style="letter-spacing:7px"></div><input id="missAnswer" class="input" placeholder="Write the full word" autocomplete="off"/><div class="feedback" id="missFeedback"></div><button class="primary" id="missCheck" onclick="checkMissing()">Check</button><button class="secondary hide" id="missNext" onclick="nextMissing()">Next →</button></div></section>
 <section id="revision" class="screen"><button class="back" onclick="show('home')">← Home</button><div class="sectiontitle">🔁 My Revision</div><p class="sub">Words you got wrong in a test are collected here.</p><div id="revisionList" class="list"></div><button class="primary" style="width:100%;margin-top:16px" onclick="startRevisionTest()" id="revisionBtn">Practise these words</button></section>
 <section id="progress" class="screen"><button class="back" onclick="show('home')">← Home</button><div class="sectiontitle">🏆 My Progress</div><div class="statrow"><div class="stat"><b id="pLearned">0</b><small>Words learned</small></div><div class="stat"><b id="pStars">0</b><small>Stars earned</small></div></div><div class="card"><div style="font-size:42px">🌈</div><h3 id="progressTitle">Your learning journey</h3><div class="bar"><span id="progressBar"></span></div><p class="sub" id="progressDesc">Keep practising to unlock your next badge!</p></div><div class="sectiontitle">Words to practise again</div><div id="progressMistakes" class="list"></div><button class="secondary" style="width:100%;margin-top:15px" onclick="resetProgress()">Reset sample progress</button></section>
+<section id="manage" class="screen"><button class="back" onclick="show('home')">← Home</button><div class="sectiontitle">✏️ Manage My Words</div><div class="card" style="text-align:left"><h3 id="wordFormTitle" style="margin:0 0 8px">Add a New Word</h3><label class="sub" for="newEnglish">English Word</label><input id="newEnglish" class="input" style="font-size:18px;margin:6px 0 12px" placeholder="e.g. Beautiful" maxlength="60"><label class="sub" for="newMeaning">Sinhala Meaning</label><input id="newMeaning" class="input" style="font-size:18px;margin:6px 0 12px" placeholder="e.g. ලස්සන" maxlength="100"><label class="sub" for="newPron">Sinhala Pronunciation (optional)</label><input id="newPron" class="input" style="font-size:18px;margin:6px 0 12px" placeholder="e.g. බියුටිෆුල්" maxlength="100"><div class="controls" style="justify-content:stretch"><button class="primary" style="flex:1" id="saveWordBtn" onclick="saveWord()">＋ Add Word</button><button class="secondary hide" id="cancelEditBtn" onclick="cancelWordEdit()">Cancel</button></div><p class="sub" style="text-align:center;margin-bottom:0">Words are saved on this phone automatically.</p></div><div class="sectiontitle">Your Word List <span class="pill" id="manageWordCount">50 words</span></div><div id="manageWordList" class="list"></div></section>
 </div>
 <nav class="bottom"><button class="selected" onclick="show('home');selectNav(this)"><span>🏠</span>Home</button><button onclick="openLearn();selectNav(this)"><span>📖</span>Learn</button><button onclick="levelTestMode=false;startListen();selectNav(this)"><span>🎧</span>Test</button><button onclick="openProgress();selectNav(this)"><span>🏆</span>Progress</button></nav>
 <script>
-const WORDS=[
+const DEFAULT_WORDS=[
 ['apple','ඇපල්','🍎','ඇපල්'],
 ['book','පොත','📘','බුක්'],
 ['school','පාසල','🏫','ස්කූල්'],
@@ -99,14 +101,17 @@ const WORDS=[
 ['thank you','ස්තුතියි','💐','තෑන්ක් යූ'],
 ['because','මන්ද / නිසා','💡','බිකෝස්']
 ];
-let saved={};try{saved=JSON.parse(localStorage.getItem('medictation')||'{}')}catch(e){};saved.learned=saved.learned||[];saved.mistakes=saved.mistakes||[];saved.stars=saved.stars||0;saved.best=saved.best??null;saved.unlockedLevel=Math.max(1,Math.min(5,Number(saved.unlockedLevel)||1));saved.levelScores=saved.levelScores||{};
+let saved={};try{saved=JSON.parse(localStorage.getItem('medictation')||'{}')}catch(e){};
+let WORDS=Array.isArray(saved.words)&&saved.words.length?saved.words:DEFAULT_WORDS.map(w=>w.slice());
+saved.learned=saved.learned||[];saved.mistakes=saved.mistakes||[];saved.stars=saved.stars||0;saved.best=saved.best??null;saved.unlockedLevel=Math.max(1,Number(saved.unlockedLevel)||1);saved.levelScores=saved.levelScores||{};
 let currentLearn=0,testItems=[],testIndex=0,testScore=0,testMode='listen',quizItems=[],quizIndex=0,quizScore=0,missItems=[],missIndex=0,missScore=0;
-const LEVEL_SIZE=10,LEVEL_COUNT=Math.ceil(WORDS.length/LEVEL_SIZE);
+const LEVEL_SIZE=10;let LEVEL_COUNT=Math.ceil(WORDS.length/LEVEL_SIZE);
 let activeLevel=1,levelTestMode=false;
 const originalTestCard=document.querySelector('#test .card').innerHTML;
 function levelIndices(level){return Array.from({length:Math.min(LEVEL_SIZE,WORDS.length-(level-1)*LEVEL_SIZE)},(_,i)=>(level-1)*LEVEL_SIZE+i)}
-function levelStars(score){return score===10?'🥇 Gold':score===9?'🥈 Silver':score>=8?'🥉 Bronze':'Keep practising'}
+function levelStars(score,total=10){const pct=total?score/total*100:0;return pct===100?'🥇 Gold':pct>=90?'🥈 Silver':pct>=80?'🥉 Bronze':'Keep practising'}
 function renderLevels(){
+ LEVEL_COUNT=Math.ceil(WORDS.length/LEVEL_SIZE);saved.unlockedLevel=Math.min(Math.max(1,saved.unlockedLevel),Math.max(1,LEVEL_COUNT));
  const el=document.getElementById('levelGrid');if(!el)return;
  el.innerHTML=Array.from({length:LEVEL_COUNT},(_,i)=>{
  const n=i+1,locked=n>saved.unlockedLevel,done=n<saved.unlockedLevel;
@@ -115,11 +120,12 @@ function renderLevels(){
  }).join('');
 }
 function openLevel(n){
+ if(!WORDS.length){alert('Please add at least one word first.');openWordManager();return}
  if(n>saved.unlockedLevel)return;
  activeLevel=n;currentLearn=(n-1)*LEVEL_SIZE;
  const ids=levelIndices(n),score=saved.levelScores[n];
  document.getElementById('levelTitle').textContent='⭐ Level '+n+' · Words '+(ids[0]+1)+'–'+(ids[ids.length-1]+1);
- document.getElementById('levelDescription').textContent='Learn these 10 words, then take the dictation test. Score at least 8/10 to unlock the next level.'+(score!==undefined?' Best score: '+score+'/10 ('+levelStars(score)+').':'');
+ document.getElementById('levelDescription').textContent='Learn these '+ids.length+' words, then take the dictation test. Score at least 80% to unlock the next level.'+(score!==undefined?' Best score: '+score+'/10 ('+levelStars(score)+').':'');
  show('level');
 }
 function learnLevel(){currentLearn=(activeLevel-1)*LEVEL_SIZE;renderLearn();show('learn')}
@@ -137,9 +143,9 @@ function finishLevel(score,total){
  const unlocked=passed&&saved.unlockedLevel>wasUnlocked;
  document.getElementById('testCount').textContent='Level '+activeLevel+' completed';
  document.getElementById('testBar').style.width='100%';
- document.querySelector('#test .card').innerHTML=`<div style="font-size:52px">${passed?'🏆':'💪'}</div><h2>${score} / ${total}</h2><div class="meaning">${levelStars(score)}</div><p class="sub">${unlocked?'🎉 Level '+saved.unlockedLevel+' unlocked!':passed?'Great work! Level passed.':'Try again! You need 8/10 to unlock the next level.'}</p><div class="level-actions"><button class="primary" onclick="testLevel(${activeLevel})">Try again</button><button class="secondary" onclick="openLevel(${activeLevel})">Level menu</button>${unlocked?`<button class="primary" onclick="openLevel(${saved.unlockedLevel})">Next level →</button>`:''}</div>`;
+ document.querySelector('#test .card').innerHTML=`<div style="font-size:52px">${passed?'🏆':'💪'}</div><h2>${score} / ${total}</h2><div class="meaning">${levelStars(score,ids.length)}</div><p class="sub">${unlocked?'🎉 Level '+saved.unlockedLevel+' unlocked!':passed?'Great work! Level passed.':'Try again! You need 8/10 to unlock the next level.'}</p><div class="level-actions"><button class="primary" onclick="testLevel(${activeLevel})">Try again</button><button class="secondary" onclick="openLevel(${activeLevel})">Level menu</button>${unlocked?`<button class="primary" onclick="openLevel(${saved.unlockedLevel})">Next level →</button>`:''}</div>`;
 }
-function persist(){localStorage.setItem('medictation',JSON.stringify(saved));updateHome();renderLevels()}
+function persist(){saved.words=WORDS;localStorage.setItem('medictation',JSON.stringify(saved));updateHome();renderLevels()}
 function show(id){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0)}
 function selectNav(el){document.querySelectorAll('.bottom button').forEach(x=>x.classList.remove('selected'));el.classList.add('selected')}
 function chooseEnglishVoice(){
@@ -155,30 +161,39 @@ function chooseEnglishVoice(){
 }
 function speak(i){
  const w=WORDS[i][0];
- const note=document.getElementById('voiceNote');
- // In the installed Android app, use the native Android Text-to-Speech engine.
- if(window.AndroidSpeech && typeof window.AndroidSpeech.speak==='function'){
-   try{
-     window.AndroidSpeech.speak(w);
-     if(note) note.textContent='Voice: Android English voice. If no sound is heard, install/enable an English voice in your phone Text-to-Speech settings.';
-     return;
-   }catch(e){
-     if(note) note.textContent='Could not start Android voice. Check your phone Text-to-Speech settings.';
-     return;
-   }
- }
- // Browser fallback for the web version.
- if(!('speechSynthesis' in window)){alert('Speech is not supported on this device/browser.');return}
+ if(!('speechSynthesis'in window)){alert('Speech is not supported on this device/browser.');return}
  speechSynthesis.cancel();
  const u=new SpeechSynthesisUtterance(w);
  const voice=chooseEnglishVoice();
- if(voice){u.voice=voice;u.lang=voice.lang}else{u.lang='en-IN'}
+ if(voice){u.voice=voice;u.lang=voice.lang}
+ else{u.lang='en-IN'}
  u.rate=.82;u.pitch=1.0;
  speechSynthesis.speak(u);
+ const note=document.getElementById('voiceNote');
  if(note) note.textContent='Voice: '+(voice?voice.name+' ('+voice.lang+')':'device English voice (en-IN requested)')+'. Actual accent depends on voices installed on this device.';
 }
-function updateHome(){let n=saved.learned.length;document.getElementById('starsTop').textContent=saved.stars;document.getElementById('statStars').textContent=saved.stars+' ⭐';document.getElementById('statBest').textContent=saved.best===null?'—':saved.best+'%';document.getElementById('statDone').textContent=n+'/50';document.getElementById('learnedText').textContent=n+' of 50';document.getElementById('homeProgress').style.width=(n/50*100)+'%';document.getElementById('pLearned').textContent=n;document.getElementById('pStars').textContent=saved.stars;document.getElementById('progressBar').style.width=(n/50*100)+'%';document.getElementById('progressTitle').textContent=n===50?'🏆 Word Master!':n>=25?'🌟 Super Learner!':'🌱 Great start!';document.getElementById('progressDesc').textContent=n+' of 50 words marked as learned.'}
-function openLearn(){activeLevel=saved.unlockedLevel;currentLearn=(activeLevel-1)*LEVEL_SIZE;renderLearn();show('learn')}
+let editingWordIndex=null;
+function escapeHtml(value){return String(value??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]))}
+function openWordManager(){cancelWordEdit();renderWordManager();show('manage')}
+function renderWordManager(){
+ const list=document.getElementById('manageWordList');
+ document.getElementById('manageWordCount').textContent=WORDS.length+' words';
+ list.innerHTML=WORDS.map((w,i)=>`<div class="wordrow"><span class="mini-pic">${escapeHtml(w[2]||'📝')}</span><div style="flex:1;min-width:0"><b>${i+1}. ${escapeHtml(w[0])}</b><br><small>${escapeHtml(w[1])}${w[3]?' · '+escapeHtml(w[3]):''}</small></div><button class="secondary" style="padding:9px 11px" onclick="editWord(${i})">✏️</button><button class="secondary" style="padding:9px 11px;color:#d64b64" onclick="deleteWord(${i})">🗑️</button></div>`).join('')||'<div class="empty">No words yet. Add your first word above.</div>';
+}
+function saveWord(){
+ const english=document.getElementById('newEnglish').value.trim(),meaning=document.getElementById('newMeaning').value.trim(),pron=document.getElementById('newPron').value.trim();
+ if(!english||!meaning){alert('Please enter both the English word and Sinhala meaning.');return}
+ const duplicate=WORDS.findIndex((w,i)=>w[0].toLowerCase()===english.toLowerCase()&&i!==editingWordIndex);
+ if(duplicate!==-1){alert('This English word is already in your list.');return}
+ if(editingWordIndex===null){WORDS.push([english,meaning,'📝',pron]);}
+ else{const old=WORDS[editingWordIndex];WORDS[editingWordIndex]=[english,meaning,old[2]||'📝',pron];}
+ persist();renderWordManager();cancelWordEdit();
+}
+function editWord(i){editingWordIndex=i;const w=WORDS[i];document.getElementById('newEnglish').value=w[0];document.getElementById('newMeaning').value=w[1];document.getElementById('newPron').value=w[3]||'';document.getElementById('wordFormTitle').textContent='Edit Word '+(i+1);document.getElementById('saveWordBtn').textContent='Save Changes';document.getElementById('cancelEditBtn').classList.remove('hide');document.getElementById('newEnglish').focus();window.scrollTo(0,0)}
+function cancelWordEdit(){editingWordIndex=null;['newEnglish','newMeaning','newPron'].forEach(id=>document.getElementById(id).value='');document.getElementById('wordFormTitle').textContent='Add a New Word';document.getElementById('saveWordBtn').textContent='＋ Add Word';document.getElementById('cancelEditBtn').classList.add('hide')}
+function deleteWord(i){if(!confirm('Delete "'+WORDS[i][0]+'"? This cannot be undone.'))return;WORDS.splice(i,1);saved.learned=saved.learned.filter(x=>x!==i).map(x=>x>i?x-1:x);saved.mistakes=saved.mistakes.filter(x=>x!==i).map(x=>x>i?x-1:x);saved.levelScores={};saved.unlockedLevel=Math.min(saved.unlockedLevel,Math.max(1,Math.ceil(WORDS.length/LEVEL_SIZE)));currentLearn=Math.min(currentLearn,Math.max(0,WORDS.length-1));persist();renderWordManager();cancelWordEdit();if(!WORDS.length)alert('Your word list is empty. Add a new word to continue learning.');}
+function updateHome(){let n=saved.learned.length,total=WORDS.length,pct=total?Math.min(100,n/total*100):0;document.getElementById('starsTop').textContent=saved.stars;document.getElementById('statStars').textContent=saved.stars+' ⭐';document.getElementById('statBest').textContent=saved.best===null?'—':saved.best+'%';document.getElementById('statDone').textContent=n+'/'+total;document.getElementById('learnedText').textContent=n+' of '+total;document.getElementById('homeProgress').style.width=pct+'%';document.getElementById('pLearned').textContent=n;document.getElementById('pStars').textContent=saved.stars;document.getElementById('progressBar').style.width=pct+'%';document.getElementById('progressTitle').textContent=n===total?'🏆 Word Master!':n>=Math.ceil(total/2)?'🌟 Super Learner!':'🌱 Great start!';document.getElementById('progressDesc').textContent=n+' of '+total+' words marked as learned.'}
+function openLearn(){if(!WORDS.length){alert('Please add at least one word first.');openWordManager();return}activeLevel=saved.unlockedLevel;currentLearn=Math.min((activeLevel-1)*LEVEL_SIZE,WORDS.length-1);renderLearn();show('learn')}
 function renderLearn(){
  let [w,m,pic,pron]=WORDS[currentLearn];
  document.getElementById('learnWord').textContent=w;
@@ -187,13 +202,13 @@ function renderLearn(){
  document.getElementById('learnPicture').setAttribute('aria-label',w+' picture');
  document.getElementById('learnPron').textContent=pron;
  document.getElementById('learnNo').textContent='WORD '+(currentLearn+1);
- document.getElementById('learnCount').textContent=(currentLearn+1)+' / 50';
+ document.getElementById('learnCount').textContent=(currentLearn+1)+' / '+WORDS.length;
  document.getElementById('wordList').innerHTML=WORDS.map((x,i)=>`<div class="wordrow"><span class="mini-pic">${x[2]}</span><div style="flex:1"><b>${i+1}. ${x[0]}</b><br><small>${x[1]}</small></div><button class="secondary" onclick="speak(${i})">🔊</button></div>`).join('');
 }
 function moveLearn(d){const min=(activeLevel-1)*LEVEL_SIZE,max=Math.min(WORDS.length-1,min+LEVEL_SIZE-1);currentLearn=Math.max(min,Math.min(max,currentLearn+d));renderLearn()}
 function markLearned(){if(!saved.learned.includes(currentLearn)){saved.learned.push(currentLearn);saved.stars+=1;persist()}const last=Math.min(WORDS.length-1,activeLevel*LEVEL_SIZE-1);if(currentLearn<last)moveLearn(1);else openLevel(activeLevel)}
 function sampleSet(){return levelIndices(saved.unlockedLevel).sort(()=>Math.random()-.5).slice(0,10)}
-function startListen(indices=null){if(!levelTestMode)activeLevel=saved.unlockedLevel;testItems=indices||sampleSet();testIndex=0;testScore=0;testMode='listen';document.querySelector('#test .card').innerHTML=originalTestCard;renderTest();show('test')}
+function startListen(indices=null){if(!WORDS.length){alert('Please add at least one word first.');openWordManager();return}if(!levelTestMode)activeLevel=saved.unlockedLevel;testItems=indices||sampleSet();testIndex=0;testScore=0;testMode='listen';document.querySelector('#test .card').innerHTML=originalTestCard;renderTest();show('test')}
 function renderTest(){document.getElementById('testTitle').textContent=testMode==='level'?'🎧 Level '+activeLevel+' Dictation Test':testMode==='revision'?'🔁 Revision Dictation':'🎧 Listening Test';document.getElementById('testCount').textContent='Question '+(testIndex+1)+' of '+testItems.length;document.getElementById('testBar').style.width=(testIndex/testItems.length*100)+'%';document.getElementById('answer').value='';document.getElementById('feedback').textContent='';document.getElementById('checkBtn').classList.remove('hide');document.getElementById('nextBtn').classList.add('hide');document.getElementById('testPrompt').textContent='Tap the button to hear the word.';setTimeout(()=>speak(testItems[testIndex]),350)}
 
 // Short, kid-friendly feedback sounds generated locally with Web Audio (no audio files needed).
@@ -234,11 +249,11 @@ function playFeedbackSound(kind){
 
 function checkAnswer(){let a=document.getElementById('answer').value.trim().toLowerCase(),idx=testItems[testIndex],correct=WORDS[idx][0].toLowerCase(),f=document.getElementById('feedback');if(a===correct){playFeedbackSound('correct');testScore++;f.textContent='Excellent! That is correct. ⭐';f.className='feedback good';saved.stars+=2;saved.mistakes=saved.mistakes.filter(x=>x!==idx)}else{playFeedbackSound('incorrect');f.textContent='Good try! Correct spelling: '+WORDS[idx][0];f.className='feedback bad';if(!saved.mistakes.includes(idx))saved.mistakes.push(idx)}persist();document.getElementById('checkBtn').classList.add('hide');document.getElementById('nextBtn').classList.remove('hide')}
 function nextQuestion(){testIndex++;if(testIndex<testItems.length)renderTest();else{if(levelTestMode){levelTestMode=false;finishLevel(testScore,testItems.length);return}let pct=Math.round(testScore/testItems.length*100);saved.best=saved.best===null?pct:Math.max(saved.best,pct);persist();document.getElementById('testCount').textContent='Test completed';document.getElementById('testBar').style.width='100%';document.querySelector('#test .card').innerHTML=`<div style="font-size:48px">${pct>=80?'🏆':'🌟'}</div><h2>${testScore} / ${testItems.length}</h2><div class="meaning">${pct}% correct</div><p class="sub">${pct>=80?'Amazing work! Keep it up!':'Keep practising. You can do it!'}</p><button class="primary" onclick="startListen()">Try another test</button> <button class="secondary" onclick="show('home')">Home</button>`}}
-function startQuiz(indices=null){quizItems=indices||sampleSet();quizIndex=0;quizScore=0;renderQuiz();show('quiz')}
+function startQuiz(indices=null){if(!WORDS.length){alert('Please add at least one word first.');openWordManager();return}quizItems=indices||sampleSet();quizIndex=0;quizScore=0;renderQuiz();show('quiz')}
 function renderQuiz(){let idx=quizItems[quizIndex],correct=WORDS[idx][0],opts=[correct];while(opts.length<4){let x=WORDS[Math.floor(Math.random()*WORDS.length)][0];if(!opts.includes(x))opts.push(x)}opts.sort(()=>Math.random()-.5);document.getElementById('quizMeaning').textContent=WORDS[idx][1];document.getElementById('quizCount').textContent=`Question ${quizIndex+1} of ${quizItems.length}`;document.getElementById('quizBar').style.width=(quizIndex/quizItems.length*100)+'%';document.getElementById('quizFeedback').textContent='';document.getElementById('quizNext').classList.add('hide');document.getElementById('options').innerHTML=opts.map(x=>`<button class="option" onclick="answerQuiz(this,'${x.replace(/'/g,"\\'")}','${correct.replace(/'/g,"\\'")}')">${x}</button>`).join('')}
 function answerQuiz(btn,a,c){document.querySelectorAll('#options button').forEach(b=>b.disabled=true);if(a===c){playFeedbackSound('correct');quizScore++;btn.style.background='#dff8ee';btn.style.borderColor='#18885d';document.getElementById('quizFeedback').textContent='Correct! ⭐';document.getElementById('quizFeedback').className='feedback good';saved.stars+=1;saved.mistakes=saved.mistakes.filter(x=>x===undefined?false:x!==quizItems[quizIndex])}else{playFeedbackSound('incorrect');btn.style.background='#ffe6eb';btn.style.borderColor='#d64b64';document.getElementById('quizFeedback').textContent='Correct answer: '+c;document.getElementById('quizFeedback').className='feedback bad';if(!saved.mistakes.includes(quizItems[quizIndex]))saved.mistakes.push(quizItems[quizIndex])}persist();document.getElementById('quizNext').classList.remove('hide')}
 function nextQuiz(){quizIndex++;if(quizIndex<quizItems.length)renderQuiz();else{let p=Math.round(quizScore/quizItems.length*100);saved.best=saved.best===null?p:Math.max(saved.best,p);persist();document.getElementById('quiz').querySelector('.card').innerHTML=`<div style="font-size:48px">🏅</div><h2>${quizScore} / ${quizItems.length}</h2><div class="meaning">${p}% correct</div><button class="primary" onclick="startQuiz()">Play again</button> <button class="secondary" onclick="show('home')">Home</button>`}}
-function startMissing(indices=null){missItems=indices||sampleSet();missIndex=0;missScore=0;renderMissing();show('missing')}
+function startMissing(indices=null){if(!WORDS.length){alert('Please add at least one word first.');openWordManager();return}missItems=indices||sampleSet();missIndex=0;missScore=0;renderMissing();show('missing')}
 function renderMissing(){let idx=missItems[missIndex],w=WORDS[idx][0],chars=w.split(''),pattern=chars.map((c,i)=>i%3===1?'_':c).join(' ');document.getElementById('missMeaning').textContent=WORDS[idx][1];document.getElementById('missPattern').textContent=pattern;document.getElementById('missCount').textContent=`Question ${missIndex+1} of ${missItems.length}`;document.getElementById('missBar').style.width=(missIndex/missItems.length*100)+'%';document.getElementById('missAnswer').value='';document.getElementById('missFeedback').textContent='';document.getElementById('missCheck').classList.remove('hide');document.getElementById('missNext').classList.add('hide')}
 function checkMissing(){let idx=missItems[missIndex],a=document.getElementById('missAnswer').value.trim().toLowerCase(),c=WORDS[idx][0].toLowerCase(),f=document.getElementById('missFeedback');if(a===c){playFeedbackSound('correct');missScore++;f.textContent='Perfect! ⭐';f.className='feedback good';saved.stars+=1;saved.mistakes=saved.mistakes.filter(x=>x!==idx)}else{playFeedbackSound('incorrect');f.textContent='Correct spelling: '+WORDS[idx][0];f.className='feedback bad';if(!saved.mistakes.includes(idx))saved.mistakes.push(idx)}persist();document.getElementById('missCheck').classList.add('hide');document.getElementById('missNext').classList.remove('hide')}
 function nextMissing(){missIndex++;if(missIndex<missItems.length)renderMissing();else{document.getElementById('missing').querySelector('.card').innerHTML=`<div style="font-size:48px">🧩</div><h2>${missScore} / ${missItems.length}</h2><p class="meaning">Well done!</p><button class="primary" onclick="startMissing()">Play again</button> <button class="secondary" onclick="show('home')">Home</button>`}}
